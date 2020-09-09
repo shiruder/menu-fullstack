@@ -20,9 +20,18 @@ docker-compose up --build
 
 After that, open `http://localhost:8092` in your browser for app and `http://localhost:8092` for api.
 
+## Config hostname mysql
+```bash
+docker docker inspect menu-fullstack_mysql_1 | grep \"IPAddress\"
+```
+and find: "IPAddress", 
+after this change config host in:
+```bash
+vim [my-app-name]/api/public/config/development.php
+```
 
 ## Run test suite
-Run this command in the application directory to run the test suite
+Run this command in the application directory to run the test suite 
 
 ```bash
 cd [my-app-name]/api/public
