@@ -12,13 +12,13 @@ composer install
 ```
 
 
-Use `docker-compose` to run the app with `docker`, so you can run these commands:
+Use `docker-compose` to run the app and api with `docker`, so you can run these commands:
 ```bash
 cd [my-app-name]
 docker-compose up --build
 ```
 
-After that, open `http://localhost:8092` in your browser.
+After that, open `http://localhost:8092` in your browser for app and `http://localhost:8092` for api.
 
 
 ## Run test suite
