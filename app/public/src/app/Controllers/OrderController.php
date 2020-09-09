@@ -7,34 +7,39 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OrderController
 {
-    public function indexAction(Request $request, Application $app)
+    protected $httpClientService;
+
+    public function __construct($service)
     {
-        $url = 'http://nginx-api/api/v1/orders/' . $request->get('id');
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $order = json_decode(curl_exec($ch));
-        if ($order === false) {
-            var_dump('CURL error: ' . curl_error($ch));
-        }
+        $this->httpClientService = $service;
+    }
 
-        curl_close($ch);
+    public function index(Request $request, Application $app)
+    {
+        $response = $this->httpClientService->createRequest(
+            'get',
+            'http://nginx-api/api/v1/orders/' . $request->get('id')
+        );
 
-        $url = 'http://nginx-api/api/v1/users/' . $order->user_id;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $user = json_decode(curl_exec($ch));
-        if ($user === false) {
-            var_dump('CURL error: ' . curl_error($ch));
-        }
+        $order = json_decode(
+            $response->getBody(),
+            true
+        );
 
-        curl_close($ch);
+        $response = $this->httpClientService->createRequest(
+            'get',
+            'http://nginx-api/api/v1/users/' . $order['id']
+        );
+
+        $user = json_decode(
+            $response->getBody(),
+            true
+        );
 
         return $app['twig']->render(
             'order.html.twig', [
-                'order' => ($order),
-                'user' => ($user)
+                'order' => $order,
+                'user' => $user,
             ]
         );
     }

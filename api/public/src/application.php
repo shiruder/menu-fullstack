@@ -1,13 +1,9 @@
 <?php
 
-use App\Models\Order;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use \Illuminate\Events\Dispatcher;
-use \Illuminate\Container\Container;
 
 $app->before(function (Request $request) {
     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
@@ -38,5 +34,5 @@ $app->error(
         );
     }
 );
-$app['debug'] = true;
+
 return $app;

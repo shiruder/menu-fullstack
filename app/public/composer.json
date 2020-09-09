@@ -5,7 +5,8 @@
         "symfony/twig-bridge": "~2.8|^3.0",
         "symfony/asset": "~2.8|^3.0",
         "components/jquery": "^3.2",
-        "twbs/bootstrap": "4.0.0"
+        "twbs/bootstrap": "4.0.0",
+        "guzzlehttp/guzzle": "6.*"
     },
     "authors": [
         {

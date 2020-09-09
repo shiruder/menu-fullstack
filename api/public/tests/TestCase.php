@@ -27,10 +27,7 @@ abstract class TestCase extends WebTestCase
     /**
      * @param string $method
      * @param string $path
-     * @param array  $headers
-     * @param array  $cookies
-     * @param array  $serverParams
-     * @return Request
+     * @param array  $options
      */
      
     protected function createRequest(

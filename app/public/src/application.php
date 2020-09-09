@@ -13,16 +13,22 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app = new Application();
+
+$servicesLoader = new App\ServicesLoader($app);
+$servicesLoader->bindServicesIntoContainer();
+
 $app->register(new ServiceControllerServiceProvider());
+
+$routesLoader = new App\RoutesLoader($app);
+$routesLoader->bindRoutesToControllers();
+
 $app->register(new AssetServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
+
 $app['twig'] = $app->extend('twig', function ($twig, $app) {
     return $twig;
 });
-
-$app->get('/', 'App\Controllers\IndexController::indexAction')->bind('index');
-$app->get('/order/{id}', 'App\Controllers\OrderController::indexAction')->bind('order');
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
@@ -30,14 +36,15 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     }
 
     // 404.html, or 40x.html, or 4xx.html, or error.html
-    $templates = array(
+    $templates = [
         'errors/'.$code.'.html.twig',
         'errors/'.substr($code, 0, 2).'x.html.twig',
         'errors/'.substr($code, 0, 1).'xx.html.twig',
         'errors/default.html.twig',
-    );
+    ];
 
-    return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
+    return new Response(
+        $app['twig']->resolveTemplate($templates)->render(['code' => $code]), $code);
 });
 
 return $app;

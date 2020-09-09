@@ -6,22 +6,26 @@ use Silex\Application;
 
 class IndexController
 {
-    public function indexAction(Application $app)
-    {
-        $url = 'http://nginx-api/api/v1/orders';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
-        if ($output === false) {
-            var_dump('CURL error: ' . curl_error($ch));
-        }
+    protected $httpClientService;
 
-        curl_close($ch);
+    public function __construct($service)
+    {
+        $this->httpClientService = $service;
+    }
+
+    public function index(Application $app)
+    {
+        $response = $this->httpClientService->createRequest(
+            'get',
+            'http://nginx-api/api/v1/orders'
+        );
 
         return $app['twig']->render(
             'index.html.twig', [
-                'orders' => json_decode($output)
+                'orders' => json_decode(
+                    $response->getBody(),
+                    true
+                )
             ]
         );
     }
