@@ -1,4 +1,4 @@
-# menu-fullstack
+# Menu Fullstack
 
 ## Install the Application
 
@@ -20,6 +20,8 @@ docker-compose up --build
 
 After that, open `http://localhost:8092` in your browser.
 
+
+## Run test suite
 Run this command in the application directory to run the test suite
 
 ```bash
