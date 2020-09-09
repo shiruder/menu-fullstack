@@ -1,0 +1,58 @@
+{% extends "layout.html.twig" %}
+ 
+{% block content %}
+    <h2 class="pb-2 mt-4 mb-2">Pedido #{{ "%06d"|format(order.id) }}</h1>
+    <div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Número:</label>
+            </div>
+            <div class="col-md-4">
+                <p>{{ "%06d"|format(order.id) }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label class="text-right">Data:</label>
+            </div>
+            <div class="col-md-4">
+                <p>{{ order.date|date("d/m/Y") }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label class="text-right">Status:</label>
+            </div>
+            <div class="col-md-4">
+                <p>{{ order.status }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label class="text-right">Valor:</label>
+            </div>
+            <div class="col-md-4">
+                <p>R$ {{ order.value|number_format(2, ',', '.') }}</p>
+            </div>
+        </div>
+    </div>
+    <h2 class="pb-2 mt-4 mb-2">Cliente</h1>
+    <div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Nome:</label>
+            </div>
+            <div class="col-md-4">
+                <p>{{ user.first_name }} {{ user.last_name }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label class="text-right">E-mail:</label>
+            </div>
+            <div class="col-md-4">
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

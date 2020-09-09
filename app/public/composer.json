@@ -1,0 +1,22 @@
+{
+    "name": "hburgo/app",
+    "require": {
+        "silex/silex": "~2.0",
+        "symfony/twig-bridge": "~2.8|^3.0",
+        "symfony/asset": "~2.8|^3.0",
+        "components/jquery": "^3.2",
+        "twbs/bootstrap": "4.0.0"
+    },
+    "authors": [
+        {
+            "name": "Henrique Burgo Raia",
+            "email": "shiruder@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/app/"
+        }
+    }
+}

@@ -1,0 +1,68 @@
+version: '3'
+services:
+
+  nginx-api:
+    image: nginx:stable-alpine
+    ports:
+      - "8091:80"
+    volumes:
+      - ./api:/var/www/html
+      - ./infrastructure/nginx/api.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - pdrnet
+    depends_on:
+      - php-api
+    links:
+      - php-api
+      - mysql
+
+  php-api:
+    build: ./infrastructure/php71/
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - pdrnet
+    environment:
+      PHP_IDE_CONFIG: "serverName=docker"
+
+  nginx-app:
+    image: nginx:stable-alpine
+    ports:
+      - "8092:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./infrastructure/nginx/app.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - pdrnet
+    depends_on:
+      - php-app
+    links:
+      - php-app
+
+  php-app:
+    build: ./infrastructure/php71/
+    #image: phpetra:php71
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - pdrnet
+    environment:
+      # same name as in PhpStorm ->PHP ->servers```
+      PHP_IDE_CONFIG: "serverName=docker"
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=sales
+    volumes:
+      - ./infrastructure/database/data:/var/lib/mysql  
+    networks:
+      - pdrnet
+
+networks:
+  pdrnet:
+    driver: "bridge"
