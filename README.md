@@ -64,7 +64,6 @@ PUT ->   http://localhost:8091/api/v1/users/{id}
 DELETE -> http://localhost:8091/api/v1/users/{id}
 ```
 
-<<<<<<< HEAD
 ## TO DO
  - Migrate Test Controller to Behat
  - Pie Chart -> http://jsfiddle.net/8LdJj/
