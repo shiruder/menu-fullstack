@@ -2,7 +2,7 @@
 
 ## Install the Application
 
-Run thess commands from the directory to install dependencies.
+Run these commands from the directory to install dependencies.
 ```bash
 cd [my-app-name]/api/public
 composer install
@@ -22,10 +22,10 @@ After that, open `http://localhost:8092` in your browser for app and `http://loc
 
 ## Config hostname mysql
 ```bash
+cd [my-app-name]
 docker docker inspect menu-fullstack_mysql_1 | grep \"IPAddress\"
 ```
-and find: "IPAddress", 
-after this change config host in:
+and find: "IPAddress", after this change config host in:
 ```bash
 vim [my-app-name]/api/public/config/development.php
 ```
