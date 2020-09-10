@@ -55,3 +55,8 @@ POST ->   http://localhost:8091/api/v1/users
 PUT ->   http://localhost:8091/api/v1/users/{id}
 DELETE -> http://localhost:8091/api/v1/users/{id}
 
+## Run test suite
+ - Migrate Test Controller to Behat
+ - Pie Chart -> http://jsfiddle.net/8LdJj/
+ - API api/v1/orders group by status
+ - API api/v1/orders order by date
