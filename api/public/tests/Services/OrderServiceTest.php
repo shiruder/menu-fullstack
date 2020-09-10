@@ -1,10 +1,6 @@
 <?php
 
 namespace Tests\Services;
-use Silex\Application;
-use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 class OrderServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,23 +10,6 @@ class OrderServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $app = new Application();
-
-        require __DIR__ . '/../../config/test.php';
-
-        $capsule = new Capsule();
-        $capsule->addConnection($app["db.options"]);
-        $capsule->bootEloquent();
-
-        $servicesLoader = new \App\ServicesLoader($app);
-        $servicesLoader->bindServicesIntoContainer();
-
-        $app->register(new ServiceControllerServiceProvider());
-
-        $this->orderService = new \App\Services\OrderService(
-            new \App\Models\OrderModel()
-        );
-
         $this->order = [
             "user_id" => "1",
             "value" => 1.99,
@@ -38,47 +17,133 @@ class OrderServiceTest extends \PHPUnit_Framework_TestCase
             "date" => date('d/m/y h:i:s'),
             "created_at" => date('d/m/y h:i:s'),
         ];
-
-        return $app;
-
     }
 
     public function testSave()
     {
-        $id = $this->orderService->save($this->order);
- 
-        $this->assertInternalType("int", $id);
-        $this->orderService->delete($id);
+        $mockOrderModel = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['insertGetId'])
+            ->getMock();
+
+        $mockOrderModel->method('insertGetId')
+            ->willReturn(1);
+    
+        $orderService = new \App\Services\OrderService(
+            $mockOrderModel
+        );
+
+        $this->assertInternalType(
+            "int", 
+            $orderService->save([])
+        );
     }
 
     public function testGetOne()
     {
-        $data = $this->orderService->getOne(1);
-        $this->assertEquals(1, $data->id);
+        $mockOrderModel = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $mockOrderModel->method('find')
+            ->willReturn([]);
+    
+        $orderService = new \App\Services\OrderService(
+            $mockOrderModel
+        );
+
+        $this->assertEquals(
+            [], 
+            $orderService->getOne($this->order)
+        );
     }
 
     public function testGetAll()
     {
-        $data = $this->orderService->getAll();
-        $this->assertNotNull($data);
+        $mockOrderModel = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['all'])
+            ->getMock();
+
+        $mockOrderModel->method('all')
+            ->willReturn([]);
+    
+        $orderService = new \App\Services\OrderService(
+            $mockOrderModel
+        );
+
+        $this->assertEquals(
+            [], 
+            $orderService->getAll($this->order)
+        );
     }
 
-    public  function testUpdate()
+    public function testUpdateObject()
     {
-        $id = $this->orderService->save($this->order);
-        $order = $this->order;
-        $order['status'] = "Pendente";
-        $this->orderService->update($id, $order);
-        $data = $this->orderService->getOne($id);
-        $this->assertEquals("Pendente", $data['status']);
-        $this->orderService->delete($id);
+        $mockOrderModelFind = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $mockOrderModelUpdate = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['update'])
+            ->getMock();
+
+        $mockOrderModelFind->method('find')
+            ->willReturn($mockOrderModelUpdate);
+    
+        $mockOrderModelUpdate->method('update')
+            ->willReturn(true);
+
+        $orderService = new \App\Services\OrderService(
+            $mockOrderModelFind
+        );
+
+        $this->assertEquals(
+            true, 
+            $orderService->update(1, $this->order)
+        );        
     }
 
-    function testDelete()
+    public function testUpdateFalse()
     {
-        $id = $this->orderService->save($this->order);
-        $data = $this->orderService->delete($id);
-        $this->assertEquals(1, $data);
+        $mockOrderModel = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $mockOrderModel->method('find')
+            ->willReturn(null);
+
+        $orderService = new \App\Services\OrderService(
+            $mockOrderModel
+        );
+
+        $this->assertEquals(
+            false, 
+            $orderService->update(1, $this->order)
+        );        
     }
 
+    public function testDelete()
+    {
+        $mockOrderModel = $this->getMockBuilder(App\Models\OrderModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['destroy'])
+            ->getMock();
+
+        $mockOrderModel->method('destroy')
+            ->willReturn(true);
+    
+        $orderService = new \App\Services\OrderService(
+            $mockOrderModel
+        );
+
+        $this->assertEquals(
+            true, 
+            $orderService->delete($this->order)
+        );
+    }
 }

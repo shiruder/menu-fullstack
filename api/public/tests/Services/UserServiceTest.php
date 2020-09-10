@@ -1,84 +1,146 @@
 <?php
 
 namespace Tests\Services;
-use Silex\Application;
-use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 class UserServiceTest extends \PHPUnit_Framework_TestCase
 {
 
-    private $userService;
     private $user;
 
     public function setUp()
     {
-        $app = new Application();
-
-        require __DIR__ . '/../../config/test.php';
-
-        $capsule = new Capsule();
-        $capsule->addConnection($app['db.options']);
-        $capsule->bootEloquent();
-
-        $servicesLoader = new \App\ServicesLoader($app);
-        $servicesLoader->bindServicesIntoContainer();
-
-        $app->register(new ServiceControllerServiceProvider());
-
-        $this->userService = new \App\Services\UserService(
-            new \App\Models\UserModel()
-        );
-
         $this->user = [
             'first_name' => 'Henrique',
             'last_name' => 'Shiruder',
             'email' => 'email@example.com',
         ];
-
-        return $app;
-
     }
 
     public function testSave()
     {
-        $id = $this->userService->save($this->user);
- 
-        $this->assertInternalType('int', $id);
-        $this->userService->delete($id);
+        $mockUserModel = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['insertGetId'])
+            ->getMock();
+
+        $mockUserModel->method('insertGetId')
+            ->willReturn(1);
+    
+        $userService = new \App\Services\UserService(
+            $mockUserModel
+        );
+
+        $this->assertInternalType(
+            "int", 
+            $userService->save([])
+        );
     }
 
     public function testGetOne()
     {
-        $data = $this->userService->getOne(1);
-        $this->assertEquals(1, $data->id);
+        $mockUserModel = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $mockUserModel->method('find')
+            ->willReturn([]);
+    
+        $userService = new \App\Services\UserService(
+            $mockUserModel
+        );
+
+        $this->assertEquals(
+            [], 
+            $userService->getOne($this->user)
+        );
     }
 
     public function testGetAll()
     {
-        $data = $this->userService->getAll();
-        $this->assertNotNull($data);
+        $mockUserModel = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['all'])
+            ->getMock();
+
+        $mockUserModel->method('all')
+            ->willReturn([]);
+    
+        $userService = new \App\Services\UserService(
+            $mockUserModel
+        );
+
+        $this->assertEquals(
+            [], 
+            $userService->getAll($this->user)
+        );
     }
 
-
-
-    public  function testUpdate()
+    public function testUpdateObject()
     {
-        $id = $this->userService->save($this->user);
-        $user = $this->user;
-        $user['email'] = 'other@email.com';
-        $this->userService->update($id, $user);
-        $data = $this->userService->getOne($id);
-        $this->assertEquals('other@email.com', $data['email']);
-        $this->userService->delete($id);
+        $mockUserModelFind = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $mockUserModelUpdate = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['update'])
+            ->getMock();
+
+        $mockUserModelFind->method('find')
+            ->willReturn($mockUserModelUpdate);
+    
+        $mockUserModelUpdate->method('update')
+            ->willReturn(true);
+
+        $userService = new \App\Services\UserService(
+            $mockUserModelFind
+        );
+
+        $this->assertEquals(
+            true, 
+            $userService->update(1, $this->user)
+        );        
     }
 
-    function testDelete()
+    public function testUpdateFalse()
     {
-        $id = $this->userService->save($this->user);
-        $data = $this->userService->delete($id);
-        $this->assertEquals(1, $data);
+        $mockUserModel = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $mockUserModel->method('find')
+            ->willReturn(null);
+
+        $userService = new \App\Services\UserService(
+            $mockUserModel
+        );
+
+        $this->assertEquals(
+            false, 
+            $userService->update(1, $this->user)
+        );        
     }
 
+    public function testDelete()
+    {
+        $mockUserModel = $this->getMockBuilder(App\Models\UserModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['destroy'])
+            ->getMock();
+
+        $mockUserModel->method('destroy')
+            ->willReturn(true);
+    
+        $userService = new \App\Services\UserService(
+            $mockUserModel
+        );
+
+        $this->assertEquals(
+            true, 
+            $userService->delete($this->user)
+        );
+    }
 }
