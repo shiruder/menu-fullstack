@@ -38,24 +38,34 @@ cd [my-app-name]/api/public
 vendor/bin/phpunit
 ```
 
+```bash
+cd [my-app-name]/app/public
+vendor/bin/phpunit
+```
+
 ## What you will get
 The APIs will respond to:
 
-###Orders
+### Orders
+```bash
 GET  ->   http://localhost:8091/api/v1/orders
 GET  ->   http://localhost:8091/api/v1/orders/{id}
 POST ->   http://localhost:8091/api/v1/orders
 PUT ->   http://localhost:8091/api/v1/orders/{id}
 DELETE -> http://localhost:8091/api/v1/orders/{id}
+```
 
-###Clients
+### Clients
+```bash
 GET  ->   http://localhost:8091/api/v1/users
 GET  ->   http://localhost:8091/api/v1/users/{id}
 POST ->   http://localhost:8091/api/v1/users
 PUT ->   http://localhost:8091/api/v1/users/{id}
 DELETE -> http://localhost:8091/api/v1/users/{id}
+```
 
-## Run test suite
+<<<<<<< HEAD
+## TO DO
  - Migrate Test Controller to Behat
  - Pie Chart -> http://jsfiddle.net/8LdJj/
  - API api/v1/orders group by status
