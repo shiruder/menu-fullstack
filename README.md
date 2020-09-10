@@ -42,16 +42,19 @@ vendor/bin/phpunit
 The APIs will respond to:
 
 ### Orders
+```bash
 GET  ->   http://localhost:8091/api/v1/orders
 GET  ->   http://localhost:8091/api/v1/orders/{id}
 POST ->   http://localhost:8091/api/v1/orders
 PUT ->   http://localhost:8091/api/v1/orders/{id}
 DELETE -> http://localhost:8091/api/v1/orders/{id}
+```
 
 ### Clients
+```bash
 GET  ->   http://localhost:8091/api/v1/users
 GET  ->   http://localhost:8091/api/v1/users/{id}
 POST ->   http://localhost:8091/api/v1/users
 PUT ->   http://localhost:8091/api/v1/users/{id}
 DELETE -> http://localhost:8091/api/v1/users/{id}
-
+```
