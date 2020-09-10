@@ -39,5 +39,4 @@ class UserService
     {   
         return $this->modelUser->destroy($id);
     }
-
 }

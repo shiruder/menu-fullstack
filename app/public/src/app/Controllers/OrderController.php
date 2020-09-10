@@ -7,33 +7,23 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OrderController
 {
-    protected $httpClientService;
+    protected $orderService;
+    protected $userService;
 
-    public function __construct($service)
+    public function __construct($userService, $orderService)
     {
-        $this->httpClientService = $service;
+        $this->userService = $userService;
+        $this->orderService = $orderService;
     }
 
     public function index(Request $request, Application $app)
     {
-        $response = $this->httpClientService->createRequest(
-            'get',
-            'http://nginx-api/api/v1/orders/' . $request->get('id')
+        $order = $this->orderService->getOrder(
+            $request->get('id')
         );
 
-        $order = json_decode(
-            $response->getBody(),
-            true
-        );
-
-        $response = $this->httpClientService->createRequest(
-            'get',
-            'http://nginx-api/api/v1/users/' . $order['id']
-        );
-
-        $user = json_decode(
-            $response->getBody(),
-            true
+        $user = $this->userService->getUser(
+            $order['id']
         );
 
         return $app['twig']->render(

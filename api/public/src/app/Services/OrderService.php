@@ -39,5 +39,4 @@ class OrderService
     {   
         return $this->modelOrder->destroy($id);
     }
-
 }

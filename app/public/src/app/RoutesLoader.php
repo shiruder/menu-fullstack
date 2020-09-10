@@ -19,13 +19,14 @@ class RoutesLoader
     {
         $this->app['index.controller'] = function() {
             return new Controllers\IndexController(
-                $this->app['http_client.service']
+                $this->app['order.service']
             );
         };
 
         $this->app['order.controller'] = function() {
             return new Controllers\OrderController(
-                $this->app['http_client.service']
+                $this->app['user.service'],
+                $this->app['order.service']
             );
         };
     }

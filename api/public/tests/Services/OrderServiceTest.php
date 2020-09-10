@@ -91,11 +91,11 @@ class OrderServiceTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['update'])
             ->getMock();
 
-        $mockOrderModelFind->method('find')
-            ->willReturn($mockOrderModelUpdate);
-    
         $mockOrderModelUpdate->method('update')
             ->willReturn(true);
+
+        $mockOrderModelFind->method('find')
+            ->willReturn($mockOrderModelUpdate);
 
         $orderService = new \App\Services\OrderService(
             $mockOrderModelFind

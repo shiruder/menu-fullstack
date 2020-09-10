@@ -6,26 +6,18 @@ use Silex\Application;
 
 class IndexController
 {
-    protected $httpClientService;
+    protected $orderService;
 
-    public function __construct($service)
+    public function __construct($orderService)
     {
-        $this->httpClientService = $service;
+        $this->orderService = $orderService;
     }
 
     public function index(Application $app)
     {
-        $response = $this->httpClientService->createRequest(
-            'get',
-            'http://nginx-api/api/v1/orders'
-        );
-
         return $app['twig']->render(
             'index.html.twig', [
-                'orders' => json_decode(
-                    $response->getBody(),
-                    true
-                )
+                'orders' => $this->orderService->getOrders()
             ]
         );
     }

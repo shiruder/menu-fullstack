@@ -16,10 +16,18 @@
         <tbody>
             {% for i,order in orders %}
                 <tr>
-                    <td class="text-right">{{ order.user_id }}</td>
-                    <td class="text-right">{{ order.date|date("d/m/Y") }}</td>
-                    <td class="text-right">R$ {{ order.value|number_format(2, ',', '.') }}</td>
-                    <td class="text-right">{{ order.status }}</td>
+                    <td class="text-left">
+                        {{ order.user.first_name }} {{ order.user.last_name }}
+                    </td>
+                    <td class="text-left">
+                        {{ order.date|date("d/m/Y") }}
+                    </td>
+                    <td class="text-right">
+                        R$ {{ order.value|number_format(2, ',', '.') }}
+                    </td>
+                    <td class="text-center">
+                        {{ order.status }}
+                    </td>
                     <td class="text-right">
                         <a href="/order/{{ order.id }}" class="btn btn-primary">Detalhes</a>
                     </td>

@@ -20,5 +20,17 @@ class ServicesLoader
                 new \GuzzleHttp\Client()
             );
         };
+
+        $this->app['order.service'] = function() {
+            return new Services\OrderService(
+                $this->app['http_client.service']
+            );
+        };
+
+        $this->app['user.service'] = function() {
+            return new Services\UserService(
+                $this->app['http_client.service']
+            );
+        };
     }
 }

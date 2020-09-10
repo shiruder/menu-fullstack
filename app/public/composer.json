@@ -10,10 +10,14 @@
     },
     "authors": [
         {
-            "name": "Henrique Burgo Raia",
-            "email": "shiruder@gmail.com"
+            "name": "Henrique Burgo Raia"
         }
     ],
+    "require-dev": {
+        "phpunit/phpunit": "5.5.*",
+        "symfony/browser-kit": "*",
+        "symfony/test-pack": "dev-master"
+    },
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
