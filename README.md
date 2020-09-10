@@ -37,3 +37,21 @@ Run this command in the application directory to run the test suite
 cd [my-app-name]/api/public
 vendor/bin/phpunit
 ```
+
+## What you will get
+The APIs will respond to:
+
+###Orders
+GET  ->   http://localhost:8091/api/v1/orders
+GET  ->   http://localhost:8091/api/v1/orders/{id}
+POST ->   http://localhost:8091/api/v1/orders
+PUT ->   http://localhost:8091/api/v1/orders/{id}
+DELETE -> http://localhost:8091/api/v1/orders/{id}
+
+###Clients
+GET  ->   http://localhost:8091/api/v1/users
+GET  ->   http://localhost:8091/api/v1/users/{id}
+POST ->   http://localhost:8091/api/v1/users
+PUT ->   http://localhost:8091/api/v1/users/{id}
+DELETE -> http://localhost:8091/api/v1/users/{id}
+
