@@ -19,6 +19,12 @@ class UserController
 
     public function getOne($id)
     {
+        if (!(int)$id && $id < 1) {
+            return new JsonResponse([
+                'Message' => sprintf('Paramêtro %s inválido.', $id)
+            ], 422);
+        }
+
         $user = $this->userService->getOne($id);
 
         if (!$user) {
@@ -60,6 +66,12 @@ class UserController
 
     public function update(Request $request, $id)
     {    
+        if (!(int)$id && $id < 1) {
+            return new JsonResponse([
+                'Message' => sprintf('Paramêtro %s inválido.', $id)
+            ], 422);
+        }
+        
         if (!isset($this->getDataFromRequest($request)['user'])) {
             return new JsonResponse(
                 ['Message' => 'Parâmetros inválidos.'], 
@@ -81,6 +93,12 @@ class UserController
 
     public function delete($id)
     {
+        if (!(int)$id && $id < 1) {
+            return new JsonResponse([
+                'Message' => sprintf('Paramêtro %s inválido.', $id)
+            ], 422);
+        }
+
         if (!$this->userService->delete($id)) {
             return new JsonResponse([
                 'Message' => sprintf('Cliente %s não encontrado.', $id)

@@ -57,7 +57,7 @@ class UserControllerTest extends TestCase
     {
         $response = $this->createRequest(
             'get',
-            'http://127.0.0.1:8091/api/v1/users/0',
+            'http://127.0.0.1:8091/api/v1/users/1231413141',
             [
                 'http_errors' => false
             ]
@@ -143,7 +143,7 @@ class UserControllerTest extends TestCase
     {
         $response = $this->createRequest(
             'put',
-            'http://127.0.0.1:8091/api/v1/users/0',
+            'http://127.0.0.1:8091/api/v1/users/1231413141',
             [
                 'http_errors' => false,
                 'form_params' => [
@@ -193,7 +193,7 @@ class UserControllerTest extends TestCase
     {
         $response = $this->createRequest(
             'delete', 
-            'http://localhost:8091/api/v1/users/0',
+            'http://localhost:8091/api/v1/users/1231413141',
             [
                 'http_errors' => false
             ]

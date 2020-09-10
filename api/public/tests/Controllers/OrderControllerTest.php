@@ -59,7 +59,7 @@ class OrderControllerTest extends TestCase
     {
         $response = $this->createRequest(
             'get',
-            'http://127.0.0.1:8091/api/v1/orders/0',
+            'http://127.0.0.1:8091/api/v1/orders/1231413141',
             [
                 'http_errors' => false
             ]
@@ -147,7 +147,7 @@ class OrderControllerTest extends TestCase
     {
         $response = $this->createRequest(
             'put',
-            'http://127.0.0.1:8091/api/v1/orders/0',
+            'http://127.0.0.1:8091/api/v1/orders/1231413141',
             [
                 'http_errors' => false,
                 'form_params' => [
@@ -199,7 +199,7 @@ class OrderControllerTest extends TestCase
     {
         $response = $this->createRequest(
             'delete', 
-            'http://localhost:8091/api/v1/orders/0',
+            'http://localhost:8091/api/v1/orders/1231413141',
             [
                 'http_errors' => false
             ]

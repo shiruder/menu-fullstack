@@ -19,6 +19,12 @@ class OrderController
 
     public function getOne($id)
     {
+        if (!(int)$id && $id < 1) {
+            return new JsonResponse([
+                'Message' => sprintf('Paramêtro %s inválido.', $id)
+            ], 422);
+        }
+
         $order = $this->orderService->getOne($id);
 
         if (!$order) {
@@ -46,7 +52,7 @@ class OrderController
                 400
             ); 
         }
-
+        
         return new JsonResponse(
             [
                 "id" => $this->orderService->save(
@@ -60,6 +66,12 @@ class OrderController
 
     public function update(Request $request, $id)
     {    
+        if (!(int)$id && $id < 1) {
+            return new JsonResponse([
+                'Message' => sprintf('Paramêtro %s inválido.', $id)
+            ], 422);
+        }
+
         if (!isset($this->getDataFromRequest($request)['order'])) {
             return new JsonResponse(
                 ['Message' => 'Parâmetros inválidos.'], 
@@ -81,6 +93,12 @@ class OrderController
 
     public function delete($id)
     {
+        if (!(int)$id && $id < 1) {
+            return new JsonResponse([
+                'Message' => sprintf('Paramêtro %s inválido.', $id)
+            ], 422);
+        }
+
         if (!$this->orderService->delete($id)) {
             return new JsonResponse([
                 'Message' => sprintf('Pedido %s não encontrado.', $id)
