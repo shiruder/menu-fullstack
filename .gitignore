@@ -54,4 +54,4 @@
 /.web-server-pid
 
 # Database
-infrastructure/database/data/*
+/infrastructure/database/data/*
