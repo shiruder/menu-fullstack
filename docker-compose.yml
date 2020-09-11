@@ -14,7 +14,7 @@ services:
       - php-api
     links:
       - php-api
-      - mysql
+      - storage
 
   php-api:
     build: ./infrastructure/php71/
@@ -50,7 +50,7 @@ services:
       # same name as in PhpStorm ->PHP ->servers```
       PHP_IDE_CONFIG: "serverName=docker"
 
-  mysql:
+  storage:
     image: mysql:5.7
     restart: always
     ports:

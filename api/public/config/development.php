@@ -9,7 +9,7 @@ $app['debug'] = true;
  */
 $app['db.options'] = [
     "driver"     => "mysql",
-    "host"       => "172.24.0.1",
+    "host"       => "storage",
     "database"   => "sales",
     "port"       => "3306",
     "username"   => "root",
